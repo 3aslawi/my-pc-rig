@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOULEYMANE PC RIG | مركز القيادة الكامل</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.75);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.4);
+            --accent: #10b981;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+        }
+
+        .hidden { display: none !important; }
+
+        /* Login Screen */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .avatar-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .login-card h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .input-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand i {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .brand h1 {
+            font-size: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--primary);
+        }
+
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Specs Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .component-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .component-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .card-img {
+            height: 160px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--primary);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-tag.used {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .card-tag.new {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .card-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Section Headings */
+        .section-title {
+            font-size: 22px;
+            margin: 25px 0 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        /* Games List */
+        .game-row {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .game-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .game-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .fps-pill {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Roadmap Timeline */
+        .timeline {
+            position: relative;
+            padding-right: 30px;
+            border-right: 2px solid var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            right: -37px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .timeline-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; }
+            .nav-links { overflow-x: auto; width: 100%; padding-bottom: 5px; }
+            .game-row { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- صفحة تسجيل الدخول -->
+    <div id="login-view" class="login-wrapper">
+        <div class="login-card">
+            <div class="avatar-icon">
+                <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+            <h2>تجميعة سليمان | Rig Hub</h2>
+            <p>سجّل الدخول لاستعراض جميع القطع والألعاب</p>
+
+            <div class="input-box">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="username" placeholder="اسم المستخدم">
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" placeholder="كلمة المرور">
+            </div>
+
+            <button class="btn-submit" onclick="handleLogin()">تسجيل الدخول</button>
+            <div id="login-error" class="error-message"></div>
+        </div>
+    </div>
+
+    <!-- لوحة التحكّم الرئيسية -->
+    <div id="app-view" class="hidden">
+        <header>
+            <div class="brand">
+                <i class="fa-solid fa-desktop"></i>
+                <h1>SOULEYMANE // 5600G FULL RIG</h1>
+            </div>
+
+            <div class="nav-links">
+                <button class="nav-btn active" onclick="switchTab('specs')">كل القطع (7)</button>
+                <button class="nav-btn" onclick="switchTab('games')">الألعاب (15)</button>
+                <button class="nav-btn" onclick="switchTab('roadmap')">الترقيات القادمة</button>
+            </div>
+
+            <button class="btn-logout" onclick="handleLogout()">خروج <i class="fa-solid fa-right-from-bracket"></i></button>
+        </header>
+
+        <div class="main-content">
+            
+            <!-- تبويب كافة القطع -->
+            <div id="tab-specs" class="tab-content active">
+                <div class="grid-3">
+                    
+                    <!-- المعالج -->
+                    <div class="component-card">
+                        <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=600&q=80" class="card-img" alt="AMD Ryzen 5 5600G">
+                        <div class="card-body">
+                            <span class="card-tag used">مجدد / مستعمل ممتازة</span>
+                            <h3 class="card-title">AMD Ryzen 5 5600G</h3>
+                            <p class="card-desc">6 أنوية و12 خيط معالجة (Zen 3) حتى 4.4GHz. قوة معالجة خارقة للدراسة، المونتاج، والبرمجة.</p>
+                        </div>
+                    </div>
+
+                    <!-- الكرت المدمج -->
+                    <div class="component-card">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Radeon Vega 7">
+                        <div class="card-body">
+                            <span class="card-tag">مدمج بالمعالج</span>
+                            <h3 class="card-title">AMD Radeon Vega 7</h3>
+                            <p class="card-desc">أقوى كرت شاشة مدمج في الفئة الاقتصادية، يُغنيك كلياً عن شراء كرت منفصل حالياً.</p>
+                        </div>
+                    </div>
+
+                    <!-- اللوحة الأم -->
+                    <div class="component-card">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Motherboard B450M / A520M">
+                        <div class="card-body">
+                            <span class="card-tag used">مجدد / مستعمل</span>
+                            <h3 class="card-title">Motherboard B450M / A520M</h3>
+                            <p class="card-desc">لوحة أم مستقرة بمنصة AM4 توفر دعماً كاملاً لمعالجات Ryzen 5000 وقابلية الترقية مستقبلاً.</p>
+                        </div>
+                    </div>
+
+                    <!-- الرامات -->
+                    <div class="component-card">
+                        <img src="https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=600&q=80" class="card-img" alt="RAM 16GB Dual-Channel">
+                        <div class="card-body">
+                            <span class="card-tag used">مجدد (2x8GB)</span>
+                            <h3 class="card-title">16GB DDR4 3200MHz</h3>
+                            <p class="card-desc">شرائح ذاكرة مزدوجة لتفعيل الـ Dual-Channel لمضاعفة سرعة نقل البيانات وزيادة فريمات الكرت المدمج بنسبة 40%.</p>
+                        </div>
+                    </div>
+
+                    <!-- التخزين -->
+                    <div class="component-card">
+                        <img src="https://images.unsplash.com/photo-1597872250970-45d65452ef6f?auto=format&fit=crop&w=600&q=80" class="card-img" alt="512GB NVMe M.2 SSD">
+                        <div class="card-body">
+                            <span class="card-tag new">جديد (New)</span>
+                            <h3 class="card-title">512GB NVMe M.2 SSD</h3>
+                            <p class="card-desc">تخزين فائق السرعة لإقلاع الويندوز في أقل من 8 ثوانٍ وإلغاء شاشات الانتظار في الألعاب.</p>
+                        </div>
+                    </div>
+
+                    <!-- علبة التغذية -->
+                    <div class="component-card">
+                        <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Power Supply 500W 80+">
+                        <div class="card-body">
+                            <span class="card-tag new">جديد (New)</span>
+                            <h3 class="card-title">500W 80 Plus Power Supply</h3>
+                            <p class="card-desc">مزود طاقة آمن ومستقر يوفر الحماية الكهربائية وتغذية كافية لتركيب كارت شاشة خارجي مستقبلاً.</p>
+                        </div>
+                    </div>
+
+                    <!-- الشاشة -->
+                    <div class="component-card">
+                        <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80" class="card-img" alt="Monitor 1080p HDMI">
+                        <div class="card-body">
+                            <span class="card-tag new">جديد (New)</span>
+                            <h3 class="card-title">22-24" Full HD Monitor (HDMI)</h3>
+                            <p class="card-desc">شاشة حديثة بدقة 1080p تناسب الألعاب والدراسة دون الحاجة لمحول محول (Adapters).</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- تبويب الألعاب الموسعة -->
+            <div id="tab-games" class="tab-content">
+                
+                <h3 class="section-title"><i class="fa-solid fa-gamepad"></i> ألعاب القصة والتختيم (Single-Player / Cracked)</h3>
+                
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="GTA V">
+                        <div>
+                            <h4>GTA V</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">1080p Normal / Medium</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">55 - 75 FPS</div>
+                </div>
+
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="Forza Horizon 4">
+                        <div>
+                            <h4>Forza Horizon 4</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">1080p Medium</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">55 - 70 FPS</div>
+                </div>
+
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="Forza Horizon 5">
+                        <div>
+                            <h4>Forza Horizon 5</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">900p Medium + FSR</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">60 FPS</div>
+                </div>
+
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="eFootball PES 2021">
+                        <div>
+                            <h4>eFootball PES 2021</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">1080p High Graphics</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">60 FPS (Fixed)</div>
+                </div>
+
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="The Witcher 3">
+                        <div>
+                            <h4>The Witcher 3: Wild Hunt</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">1080p Medium / Low</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">45 - 60 FPS</div>
+                </div>
+
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="Tomb Raider">
+                        <div>
+                            <h4>Rise of the Tomb Raider</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">1080p Medium</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">60+ FPS</div>
+                </div>
+
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="Minecraft">
+                        <div>
+                            <h4>Minecraft (Java Edition)</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">1080p Fancy Graphics</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">150+ FPS</div>
+                </div>
+
+                <h3 class="section-title"><i class="fa-solid fa-users"></i> الألعاب التنافسية والجماعية المجانية (Free-to-Play Online)</h3>
+
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="Valorant">
+                        <div>
+                            <h4>Valorant</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">1080p Low / Medium | أونلاين</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">140 - 180+ FPS</div>
+                </div>
+
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="Free Fire">
+                        <div>
+                            <h4>Free Fire (BlueStacks / LDPlayer)</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">1080p High (90 FPS Mode)</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">60 - 90 FPS</div>
+                </div>
+
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="CS2">
+                        <div>
+                            <h4>Counter-Strike 2 (CS2)</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">1080p Low / Medium</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">70 - 100 FPS</div>
+                </div>
+
+                <div class="game-row">
+                    <div class="game-info">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=150&q=80" class="game-thumb" alt="Rocket League">
+                        <div>
+                            <h4>Rocket League</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">1080p Performance / High</span>
+                        </div>
+                    </div>
+                    <div class="fps-pill">75 - 100 FPS</div>
+                </div>
+
+            </div>
+
+            <!-- تبويب الترقيات المستقبلية -->
+            <div id="tab-roadmap" class="tab-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <span class="card-tag">الترقية الأولى (مستقبلاً)</span>
+                            <h3>إضافة كارت RTX 4060 / RX 6600</h3>
+                            <p class="card-desc">تركيب كارت شاشة منفصل مستغلاً علبة التغذية (500W) لمضاعفة الفريمات ثلاث مرات وتشغيل أحدث ألعاب AAA بعالية الجودة والـ Ray Tracing.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <span class="card-tag">الترقية الثانية</span>
+                            <h3>توسيع التخزين إلى 1.5TB</h3>
+                            <p class="card-desc">إضافة قرص SSD أو HDD إضافي بسعة 1TB لتخزين الألعاب الضخمة مثل Forza Horizon 5 و GTA V في مكان واحد.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <span class="card-tag">الترقية الثالثة</span>
+                            <h3>تركيب مبرد معالج هوائي (CPU Cooler)</h3>
+                            <p class="card-desc">إضافة مبرد هوائي احترافي لتحسين تبريد المعالج أثناء أوقات الضغط وتخفيض الضوضاء تماماً.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function handleLogin() {
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
+            const err = document.getElementById('login-error');
+
+            if (u === "سليمان" && p === "سليمان") {
+                document.getElementById('login-view').classList.add('hidden');
+                document.getElementById('app-view').classList.remove('hidden');
+                err.innerText = "";
+            } else {
+                err.innerText = "اسم المستخدم أو كلمة المرور غير صحيحة!";
+            }
+        }
+
+        function handleLogout() {
+            document.getElementById('app-view').classList.add('hidden');
+            document.getElementById('login-view').classList.remove('hidden');
+            document.getElementById('username').value = "";
+            document.getElementById('password').value = "";
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
